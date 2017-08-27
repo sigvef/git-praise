@@ -25,13 +25,13 @@ class DisplayEntry(object):
             self,
             author_name_length=0,
             name_length=0,
-            total_line_count=0,
+            line_number_length=0,
             same_commit=False,
             width=80):
         output = []
         author_name = rightpad(self.author_name, author_name_length)
         name = rightpad(self.name, name_length)
-        if width < 80:
+        if author_name_length == 0:
             author_name = ''
         commit_message = ' '.join(
             filter(lambda x: x,
@@ -42,7 +42,7 @@ class DisplayEntry(object):
             line = line[:width]
             formatted_line_number = leftpad(
                 self.line_number_start + i,
-                int(math.log(total_line_count, 10) + 1)) + '.'
+                line_number_length) + '.'
 
             commit_message_part_length = (
                 20 +

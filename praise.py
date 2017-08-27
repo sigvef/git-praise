@@ -59,21 +59,25 @@ def praise(filename, repo):
         len(display_entry.author_name)
         for display_entry in display_entries])
 
-    line_number_width = int(math.log(len(highlighted), 10) + 0.5)
+    line_number_length = int(math.log(len(highlighted), 10) + 1)
+
+    terminal_height, terminal_width = os.popen(
+        'stty size', 'r').read().split()
+
+    if int(terminal_width) < 80:
+        author_name_length = 0
 
     sidebar_width = sum((
         name_length,
         author_name_length,
-        19,
-        line_number_width))
+        18,
+        line_number_length))
 
     print(header(filename, repo, sidebar_width))
-    terminal_height, terminal_width = os.popen(
-        'stty size', 'r').read().split()
     for display_entry in display_entries:
         line = display_entry.render(
             author_name_length=author_name_length,
             name_length=name_length,
-            total_line_count=len(highlighted),
+            line_number_length=line_number_length,
             width=int(terminal_width))
         print(line)
