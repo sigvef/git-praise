@@ -1,13 +1,14 @@
+from collections import namedtuple
 from display_entry import DisplayEntry
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_for_filename
 from termcolor import colored
 from utils import leftpad
+from utils import progress_bar
 from utils import rightpad
 import math
 import os
 import pygments
-from collections import namedtuple
 
 formatter = get_formatter_by_name('console')
 Entry = namedtuple('Entry', ['commit', 'line_numbers'])
@@ -55,9 +56,13 @@ def praise(filename, repo):
         else:
             merged_entries.append(entry)
 
+    terminal_height, terminal_width = os.popen(
+        'stty size', 'r').read().split()
+
     # make display entries
     display_entries = []
-    for entry in merged_entries:
+    for i, entry in enumerate(merged_entries):
+        print('\r' + progress_bar(i / len(merged_entries), width=int(terminal_width)), end='')
         line_numbers = entry.line_numbers[0]
         start = entry.line_numbers[0] - 1
         end = entry.line_numbers[1]
@@ -75,9 +80,6 @@ def praise(filename, repo):
         for display_entry in display_entries])
 
     line_number_length = int(math.log(len(highlighted), 10) + 1)
-
-    terminal_height, terminal_width = os.popen(
-        'stty size', 'r').read().split()
 
     if int(terminal_width) < 80:
         author_name_length = 0

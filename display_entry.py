@@ -98,7 +98,7 @@ class DisplayEntry(object):
                         'grey',
                         'on_grey',
                         attrs=attrs),
-                colored(' ', 'grey'),
+                colored('┃', 'grey'),
                 colored(line, 'white'),
             ]))
         return '\n'.join(output)

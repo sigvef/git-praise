@@ -8,3 +8,11 @@ def rightpad(string, length):
 def leftpad(string, length):
     string = str(string)
     return rightpad(string[::-1], length)[::-1]
+
+def progress_bar(progress, width=20):
+    bar_width = width - 17
+    completed_blocks = int(progress * bar_width)
+    return ('Loading: |' +
+            '█' * completed_blocks +
+            '-' * (bar_width - completed_blocks) +
+            '| %s%%' % (int(progress * 1000) / 10.))
