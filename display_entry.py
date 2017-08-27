@@ -90,9 +90,9 @@ class DisplayEntry(object):
                         'green', 'on_grey', attrs=attrs),
                 colored(commit_message_part,
                         'magenta', 'on_grey', attrs=attrs),
-                colored(' ', 'grey', 'on_grey', attrs=attrs),
+                colored(' ', 'grey', 'on_grey', attrs=['dark'] + attrs),
                 colored(formatted_line_number.strip(),
-                        'grey', 'on_grey', attrs=attrs),
+                        'grey', 'on_grey', attrs=['dark'] + attrs),
                 colored('┃', 'grey'),
                 colored(line, 'white'),
             ]))
