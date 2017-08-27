@@ -26,6 +26,7 @@ class DisplayEntry(object):
             author_name_length=0,
             name_length=0,
             line_number_length=0,
+            sidebar_width=0,
             same_commit=False,
             width=80):
         output = []
@@ -39,7 +40,7 @@ class DisplayEntry(object):
                    self.commit.message.split('\n'))))
         commit_message_munched_length = 0
         for i, line in enumerate(self.lines):
-            line = line[:width]
+            line = line[:width-sidebar_width-2]
             formatted_line_number = leftpad(
                 self.line_number_start + i,
                 line_number_length) + '.'

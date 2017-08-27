@@ -19,7 +19,7 @@ def header(filename, repo, sidebar_width):
     basename = os.path.basename(relative_path)
     formatted_relative_path = leftpad(
         '(repo)/' + relative_path[:-len(basename)],
-        sidebar_width)
+        sidebar_width + 1)
     return ''.join([
         colored(formatted_relative_path,
                 'grey',
@@ -36,23 +36,24 @@ def praise(filename, repo):
     with open(filename) as f:
         text = f.read()
     highlighted = highlight(filename, text)
-    blame_entries = sorted(
-        repo.blame_incremental('HEAD', filename),
-        key=lambda entry: entry.orig_linenos[0])
+    blame_entries = list(sorted(
+        repo.blame('HEAD', filename),
+        key=lambda entry: entry.linenos[0]))
 
-    # make display entires
+    # make display entries
     display_entries = []
     for entry in blame_entries:
-        line_numbers = entry.orig_linenos[0]
-        start = entry.orig_linenos[0] - 1
-        end = entry.orig_linenos[-1]
+        print(entry)
+        line_numbers = entry.linenos[0]
+        start = entry.linenos[0] - 1
+        end = entry.linenos[-1]
         lines = highlighted[start:end]
         display_entries.append(
             DisplayEntry(commit=entry.commit,
             lines=lines,
             line_number_start=start + 1))
 
-    # measure display entires
+    # measure display entries
     name_length = max([len(display_entry.name)
                        for display_entry in display_entries])
     author_name_length = max([
@@ -69,8 +70,11 @@ def praise(filename, repo):
 
     sidebar_width = sum((
         name_length,
+        1 if author_name_length else 0,
         author_name_length,
-        18,
+        1,
+        20,
+        1,
         line_number_length))
 
     print(header(filename, repo, sidebar_width))
@@ -79,5 +83,6 @@ def praise(filename, repo):
             author_name_length=author_name_length,
             name_length=name_length,
             line_number_length=line_number_length,
+            sidebar_width=sidebar_width,
             width=int(terminal_width))
         print(line)
