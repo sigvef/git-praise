@@ -1,6 +1,4 @@
 from display_entry import DisplayEntry
-from git.exc import InvalidGitRepositoryError
-from git.repo.base import Repo
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_for_filename
 from termcolor import colored
@@ -11,12 +9,7 @@ import os
 import pygments
 
 
-def praise(filename):
-    try:
-        repo = Repo(path=os.getcwd(), search_parent_directories=True)
-    except InvalidGitRepositoryError:
-        print('Not a git repository')
-        return
+def praise(filename, repo):
     formatter = get_formatter_by_name('console')
     terminal_height, terminal_width = os.popen(
         'stty size', 'r').read().split()
