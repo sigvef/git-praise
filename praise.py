@@ -7,8 +7,15 @@ from utils import rightpad
 import math
 import os
 import pygments
+from collections import namedtuple
 
 formatter = get_formatter_by_name('console')
+Entry = namedtuple('Entry', ['commit', 'line_numbers'])
+
+def entry_from_blame_entry(blame_entry):
+    return Entry(commit=blame_entry.commit,
+                 line_numbers=[blame_entry.linenos[0],
+                               blame_entry.linenos[-1]])
 
 def highlight(filename, text):
     lexer = get_lexer_for_filename(filename)
@@ -36,17 +43,24 @@ def praise(filename, repo):
     with open(filename) as f:
         text = f.read()
     highlighted = highlight(filename, text)
-    blame_entries = list(sorted(
-        repo.blame('HEAD', filename),
-        key=lambda entry: entry.linenos[0]))
+    entries = list(sorted(
+        map(entry_from_blame_entry, repo.blame_incremental('HEAD', filename)),
+        key=lambda entry: entry.line_numbers))
+
+    merged_entries = [entries[0]]
+    for entry in entries[1:]:
+        previous_entry = merged_entries[-1]
+        if previous_entry.commit == entry.commit:
+            previous_entry.line_numbers[1] = entry.line_numbers[1]
+        else:
+            merged_entries.append(entry)
 
     # make display entries
     display_entries = []
-    for entry in blame_entries:
-        print(entry)
-        line_numbers = entry.linenos[0]
-        start = entry.linenos[0] - 1
-        end = entry.linenos[-1]
+    for entry in merged_entries:
+        line_numbers = entry.line_numbers[0]
+        start = entry.line_numbers[0] - 1
+        end = entry.line_numbers[1]
         lines = highlighted[start:end]
         display_entries.append(
             DisplayEntry(commit=entry.commit,
