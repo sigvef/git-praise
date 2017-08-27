@@ -6,6 +6,7 @@ from termcolor import colored
 from utils import leftpad
 from utils import progress_bar
 from utils import rightpad
+import hashlib
 import math
 import os
 import pygments
@@ -71,6 +72,7 @@ def praise(filename, repo):
             DisplayEntry(commit=entry.commit,
             lines=lines,
             line_number_start=start + 1))
+    print('\r' + ' ' * int(terminal_width) + '\r', end='')
 
     # measure display entries
     name_length = max([len(display_entry.name)
@@ -85,6 +87,7 @@ def praise(filename, repo):
         author_name_length = 0
 
     sidebar_width = sum((
+        2,
         name_length,
         1 if author_name_length else 0,
         author_name_length,
@@ -93,12 +96,25 @@ def praise(filename, repo):
         1,
         line_number_length))
 
-    print(header(filename, repo, sidebar_width))
+    colors = ('red',
+              'blue',
+              'yellow',
+              'magenta',
+              'cyan',
+              'white',)
+    commit_colors = {}
     for display_entry in display_entries:
+        if display_entry.name not in commit_colors:
+            commit_colors[display_entry.name] = colors[
+                int(hashlib.sha1(display_entry.name.encode('utf-8')).hexdigest(), 16) % len(colors)]
+
+    print(header(filename, repo, sidebar_width))
+    for i, display_entry in enumerate(display_entries):
         line = display_entry.render(
             author_name_length=author_name_length,
             name_length=name_length,
             line_number_length=line_number_length,
             sidebar_width=sidebar_width,
+            commit_color=commit_colors[display_entry.name],
             width=int(terminal_width))
         print(line)
