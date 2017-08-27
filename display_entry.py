@@ -2,6 +2,12 @@ from termcolor import colored
 from utils import leftpad
 from utils import rightpad
 import math
+import re
+
+
+def escape_ansi(line):
+    ansi_escape = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
+    return ansi_escape.sub('', line)
 
 
 class DisplayEntry(object):
@@ -40,7 +46,13 @@ class DisplayEntry(object):
                    self.commit.message.split('\n'))))
         commit_message_munched_length = 0
         for i, line in enumerate(self.lines):
-            line = line[:width-sidebar_width-2]
+            escaped = escape_ansi(line)[:width-sidebar_width-2]
+            line_index = 0
+            for letter in escaped:
+                while letter != line[line_index]:
+                    line_index += 1
+                line_index += 1
+            line = line[:line_index]
             formatted_line_number = leftpad(
                 self.line_number_start + i,
                 line_number_length) + '.'
@@ -61,7 +73,7 @@ class DisplayEntry(object):
             commit_message = commit_message[len(commit_message_part):]
 
 
-            attrs = ['dark']
+            attrs = []
             if i == len(self.lines) - 1:
                 attrs.append('underline')
 

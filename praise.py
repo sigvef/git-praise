@@ -1,6 +1,7 @@
 from collections import namedtuple
 from display_entry import DisplayEntry
 from pygments.formatters import get_formatter_by_name
+from pygments.styles import get_style_by_name
 from pygments.lexers import get_lexer_for_filename
 from termcolor import colored
 from utils import leftpad
@@ -11,7 +12,8 @@ import math
 import os
 import pygments
 
-formatter = get_formatter_by_name('console')
+style = get_style_by_name('monokai')
+formatter = get_formatter_by_name('console16m', style=style)
 Entry = namedtuple('Entry', ['commit', 'line_numbers'])
 
 def entry_from_blame_entry(blame_entry):
