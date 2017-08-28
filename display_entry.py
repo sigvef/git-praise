@@ -4,20 +4,20 @@ from utils import rightpad
 import math
 import re
 
+ANSI_REGEX = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
 
 def escape_ansi(line):
-    ansi_escape = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
-    return ansi_escape.sub('', line)
+    return ANSI_REGEX.sub('', line)
 
 
 class DisplayEntry(object):
     def __init__(
             self,
             commit=None,
-            lines=None,
+            lines_range=None,
             line_number_start=0):
         self.commit = commit
-        self.lines = lines
+        self.lines_range = lines_range
         self.line_number_start = line_number_start
 
         self.name = self.commit.name_rev.split(' ')[1]
@@ -46,13 +46,6 @@ class DisplayEntry(object):
                    self.commit.message.split('\n'))))
         commit_message_munched_length = 0
         for i, line in enumerate(self.lines):
-            escaped = escape_ansi(line)[:width-sidebar_width-2]
-            line_index = 0
-            for letter in escaped:
-                while letter != line[line_index]:
-                    line_index += 1
-                line_index += 1
-            line = line[:line_index]
             formatted_line_number = leftpad(
                 self.line_number_start + i,
                 line_number_length) + '.'

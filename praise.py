@@ -11,9 +11,9 @@ import hashlib
 import math
 import os
 import pygments
+from formatter import TruncatingTrueColorFormatter
 
 style = get_style_by_name('monokai')
-formatter = get_formatter_by_name('console16m', style=style)
 Entry = namedtuple('Entry', ['commit', 'line_numbers'])
 
 def entry_from_blame_entry(blame_entry):
@@ -21,7 +21,7 @@ def entry_from_blame_entry(blame_entry):
                  line_numbers=[blame_entry.linenos[0],
                                blame_entry.linenos[-1]])
 
-def highlight(filename, text):
+def highlight(filename, text, formatter):
     lexer = get_lexer_for_filename(filename)
     return pygments.highlight(text, lexer, formatter).split('\n')
 
@@ -46,7 +46,6 @@ def header(filename, repo, sidebar_width):
 def praise(filename, repo):
     with open(filename) as f:
         text = f.read()
-    highlighted = highlight(filename, text)
     entries = list(sorted(
         map(entry_from_blame_entry, repo.blame_incremental('HEAD', filename)),
         key=lambda entry: entry.line_numbers))
@@ -69,10 +68,10 @@ def praise(filename, repo):
         line_numbers = entry.line_numbers[0]
         start = entry.line_numbers[0] - 1
         end = entry.line_numbers[1]
-        lines = highlighted[start:end]
+        lines_range = range(start, end)
         display_entries.append(
             DisplayEntry(commit=entry.commit,
-            lines=lines,
+            lines_range=lines_range,
             line_number_start=start + 1))
     print('\r' + ' ' * int(terminal_width) + '\r', end='')
 
@@ -83,7 +82,7 @@ def praise(filename, repo):
         len(display_entry.author_name)
         for display_entry in display_entries])
 
-    line_number_length = int(math.log(len(highlighted), 10) + 1)
+    line_number_length = int(math.log(len(text), 10) + 1)
 
     if int(terminal_width) < 80:
         author_name_length = 0
@@ -109,6 +108,14 @@ def praise(filename, repo):
         if display_entry.name not in commit_colors:
             commit_colors[display_entry.name] = colors[
                 int(hashlib.sha1(display_entry.name.encode('utf-8')).hexdigest(), 16) % len(colors)]
+
+    formatter = TruncatingTrueColorFormatter(style=style, max_width=int(terminal_width)-sidebar_width-2)
+    new_lines = highlight(filename, text, formatter)
+    index = 0
+    for display_entry in display_entries:
+        number_of_lines = len(display_entry.lines_range)
+        display_entry.lines = new_lines[i:i+number_of_lines]
+        i += number_of_lines
 
     print(header(filename, repo, sidebar_width))
     for i, display_entry in enumerate(display_entries):
