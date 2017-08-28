@@ -114,8 +114,8 @@ def praise(filename, repo):
     index = 0
     for display_entry in display_entries:
         number_of_lines = len(display_entry.lines_range)
-        display_entry.lines = new_lines[i:i+number_of_lines]
-        i += number_of_lines
+        display_entry.lines = new_lines[index:index+number_of_lines]
+        index += number_of_lines
 
     print(header(filename, repo, sidebar_width))
     for i, display_entry in enumerate(display_entries):
