@@ -12,3 +12,7 @@ clean:
 	find . -name '__pycache__' -delete
 	find . -type d -empty -delete
 	rm -rf dist git_praise.egg-info
+
+.PHONY: upload-to-pypi
+upload-to-pypi:
+	python setup.py sdist upload
