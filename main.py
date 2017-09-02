@@ -10,7 +10,7 @@ def main():
     except InvalidGitRepositoryError:
         print('Not a git repository')
         return
-    filenames = sys.argv[1:]
+    filenames = sys.argv[1:2]
     for filename in filenames:
         praise(filename, repo)
 
