@@ -24,12 +24,12 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                     spl = value.split('\n')
                     for line in spl[:-1]:
                         if line:
-                            unformatted_line_length += len(line)
-                            line = line[
-                                :self.max_width-unformatted_line_length]
+                            temp = line
+                            line = line[:max(
+                                0, self.max_width-unformatted_line_length)]
+                            unformatted_line_length += len(temp)
                             unformatted_truncated_line_length += len(line)
-                            if ((unformatted_line_length !=
-                                 unformatted_truncated_line_length) and
+                            if (unformatted_line_length > self.max_width and
                                     line):
                                 line = line[:-1] + u'…'
                             if line:
@@ -38,11 +38,11 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                         unformatted_truncated_line_length = 0
                         outfile.write('\n')
                     if spl[-1]:
+                        item = spl[-1][
+                            :max(0, self.max_width-unformatted_line_length)]
                         unformatted_line_length += len(spl[-1])
-                        item = spl[-1][:self.max_width-unformatted_line_length]
                         unformatted_truncated_line_length += len(item)
-                        if ((unformatted_line_length !=
-                             unformatted_truncated_line_length) and item):
+                        if unformatted_line_length > self.max_width and item:
                             item = item[:-1] + u'…'
                         if item:
                             outfile.write(on + item + off)
@@ -57,8 +57,7 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                 unformatted_line_length += len(value)
                 item = value[:self.max_width-unformatted_line_length]
                 unformatted_truncated_line_length += len(value)
-                if ((unformatted_line_length !=
-                     unformatted_truncated_line_length) and item):
+                if unformatted_line_length > self.max_width and item:
                     item = item[:-1] + u'…'
                 if item:
                     outfile.write(item)

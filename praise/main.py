@@ -23,3 +23,7 @@ def praise_command(filename=None):
         click.echo_via_pager(output)
     else:
         click.echo(output)
+
+
+if __name__ == '__main__':
+    praise_command()

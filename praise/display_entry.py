@@ -73,8 +73,6 @@ class DisplayEntry(object):
                 name = ' ' * len(name)
                 author_name = ' ' * len(author_name)
 
-            print(type(commit_message_part), type(formatted_line_number))
-
             output.append(u''.join([
                 colored(u'█ ', commit_color, 'on_grey', attrs=attrs),
                 colored(name, commit_color, 'on_grey', attrs=attrs),
