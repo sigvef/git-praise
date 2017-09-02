@@ -4,6 +4,7 @@ dependencies = [
     'GitPython==2.1.5',
     'Pygments==2.2.0',
     'click==6.7',
+    'flake8==3.4.1',
     'termcolor==1.1.0',
 ]
 
