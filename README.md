@@ -1,8 +1,8 @@
 # git praise
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
-[![PyPI](https://img.shields.io/pypi/v/git-praise.svg)]()
-[![PyPI](https://img.shields.io/pypi/l/git-praise.svg)]()
-[![PyPI](https://img.shields.io/pypi/pyversions/git-praise.svg)]()
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/sigvef/git-praise)
+[![PyPI](https://img.shields.io/pypi/v/git-praise.svg)](https://pypi.python.org/pypi/git-praise)
+[![PyPI](https://img.shields.io/pypi/l/git-praise.svg)](https://pypi.python.org/pypi/git-praise)
+[![PyPI](https://img.shields.io/pypi/pyversions/git-praise.svg)](https://pypi.python.org/pypi/git-praise)
 
 A nicer `git blame`.
 
