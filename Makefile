@@ -16,3 +16,7 @@ clean:
 .PHONY: upload-to-pypi
 upload-to-pypi:
 	python setup.py sdist upload
+
+.PHONY: lint
+lint:
+	flake8 setup.py praise/**
