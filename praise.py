@@ -117,7 +117,9 @@ def praise(filename, repo):
         display_entry.lines = new_lines[index:index+number_of_lines]
         index += number_of_lines
 
-    print(header(filename, repo, sidebar_width))
+    output = [] 
+
+    output.append(header(filename, repo, sidebar_width))
     for i, display_entry in enumerate(display_entries):
         line = display_entry.render(
             author_name_length=author_name_length,
@@ -126,4 +128,5 @@ def praise(filename, repo):
             sidebar_width=sidebar_width,
             commit_color=commit_colors[display_entry.name],
             width=int(terminal_width))
-        print(line)
+        output.append(line)
+    return '\n'.join(output)
