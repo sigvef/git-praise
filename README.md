@@ -2,6 +2,8 @@
 
 A nicer `git blame`.
 
+![Screenshot  of git praise](https://github.com/sigvef/git-praise/blob/master/git-praise.png?raw=true)
+
 ## Installation
 
 ```
@@ -23,4 +25,6 @@ $ praise path/to/my/file
 git clone git@github.com:sigvef/git-praise.git
 cd git-praise
 make setup
+. venv/bin/activate
+make
 ```
