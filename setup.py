@@ -1,4 +1,4 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 
 dependencies = [
     'GitPython==2.1.5',
@@ -9,7 +9,7 @@ dependencies = [
 
 setup(
     name='git-praise',
-    version='1.0.0',
+    version='1.1.0',
     url='https://github.com/sigvef/git-praise',
     license='MIT',
     author='Sigve Sebastian Farstad',
@@ -30,6 +30,7 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ]
 )
