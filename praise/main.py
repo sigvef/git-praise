@@ -1,6 +1,6 @@
 from git.exc import InvalidGitRepositoryError
 from git.repo.base import Repo
-from praise import praise
+from praise.praise import praise
 from subprocess import PIPE
 from subprocess import Popen
 import os

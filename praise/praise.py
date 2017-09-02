@@ -1,17 +1,17 @@
 from collections import namedtuple
-from display_entry import DisplayEntry
+from praise.display_entry import DisplayEntry
+from praise.formatter import TruncatingTrueColorFormatter
+from praise.utils import leftpad
+from praise.utils import progress_bar
+from praise.utils import rightpad
 from pygments.formatters import get_formatter_by_name
-from pygments.styles import get_style_by_name
 from pygments.lexers import get_lexer_for_filename
+from pygments.styles import get_style_by_name
 from termcolor import colored
-from utils import leftpad
-from utils import progress_bar
-from utils import rightpad
 import hashlib
 import math
 import os
 import pygments
-from formatter import TruncatingTrueColorFormatter
 
 style = get_style_by_name('monokai')
 Entry = namedtuple('Entry', ['commit', 'line_numbers'])

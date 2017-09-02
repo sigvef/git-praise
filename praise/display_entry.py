@@ -1,6 +1,6 @@
 from termcolor import colored
-from utils import leftpad
-from utils import rightpad
+from praise.utils import leftpad
+from praise.utils import rightpad
 import math
 import re
 
