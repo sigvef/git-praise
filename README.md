@@ -17,6 +17,8 @@ pip install git-praise
 
 Make sure that you have your python package bin path in your $PATH.
 On Ubuntu, this is `~/.local/bin`.
+If it isn't in your path, you can try adding the following to your `.bashrc`:
+`export PATH=$PATH:~/.local/bin`.
 
 ## Usage
 
