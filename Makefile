@@ -19,4 +19,4 @@ upload-to-pypi:
 
 .PHONY: lint
 lint:
-	flake8 setup.py praise/**
+	flake8 setup.py praise/**.py
