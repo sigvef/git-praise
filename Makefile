@@ -5,3 +5,10 @@ all:
 .PHONY: setup
 setup:
 	python -m virtualenv venv -p python3
+
+.PHONY: clean
+clean:
+	find . -name '*.pyc' -delete
+	find . -name '__pycache__' -delete
+	find . -type d -empty -delete
+	rm -rf dist git_praise.egg-info

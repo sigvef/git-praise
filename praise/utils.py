@@ -3,8 +3,8 @@ def rightpad(string, length):
     string = str(string)
     truncated = string[:length]
     if len(string) >= length + 1:
-        truncated = truncated[:-1] + '…'
-    return truncated + ' ' * (length - len(truncated))
+        truncated = truncated[:-1] + u'…'
+    return truncated + u' ' * (length - len(truncated))
 
 
 def leftpad(string, length):
@@ -15,7 +15,7 @@ def leftpad(string, length):
 def progress_bar(progress, width=20):
     bar_width = width - 17
     completed_blocks = int(progress * bar_width)
-    return ('Loading: |' +
-            '█' * completed_blocks +
-            '-' * (bar_width - completed_blocks) +
-            '| %s%%' % (int(progress * 1000) / 10.))
+    return (u'Loading: |' +
+            u'█' * completed_blocks +
+            u'-' * (bar_width - completed_blocks) +
+            u'| %s%%' % (int(progress * 1000) / 10.))

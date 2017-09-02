@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pygments.formatters import TerminalTrueColorFormatter
 
 
@@ -30,7 +31,7 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                             if ((unformatted_line_length !=
                                  unformatted_truncated_line_length) and
                                     line):
-                                line = line[:-1] + '…'
+                                line = line[:-1] + u'…'
                             if line:
                                 outfile.write(on + line + off)
                         unformatted_line_length = 0
@@ -42,7 +43,7 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                         unformatted_truncated_line_length += len(item)
                         if ((unformatted_line_length !=
                              unformatted_truncated_line_length) and item):
-                            item = item[:-1] + '…'
+                            item = item[:-1] + u'…'
                         if item:
                             outfile.write(on + item + off)
 
@@ -58,6 +59,6 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                 unformatted_truncated_line_length += len(value)
                 if ((unformatted_line_length !=
                      unformatted_truncated_line_length) and item):
-                    item = item[:-1] + '…'
+                    item = item[:-1] + u'…'
                 if item:
                     outfile.write(item)

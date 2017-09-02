@@ -2,7 +2,7 @@
 from __future__ import print_function
 from git.exc import InvalidGitRepositoryError
 from git.repo.base import Repo
-from praise.praise import praise
+from praise.praise_command import praise
 import click
 import os
 

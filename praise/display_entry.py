@@ -41,11 +41,10 @@ class DisplayEntry(object):
         name = rightpad(self.name, name_length)
         if author_name_length == 0:
             author_name = ''
-        commit_message = ' '.join(
+        commit_message = u' '.join(
             filter(lambda x: x,
-                map(lambda x: x.strip(),
-                   self.commit.message.split('\n'))))
-        commit_message_munched_length = 0
+                   map(lambda x: x.strip(),
+                       self.commit.message.split(u'\n'))))
         for i, line in enumerate(self.lines):
             formatted_line_number = leftpad(
                 self.line_number_start + i,
@@ -66,7 +65,6 @@ class DisplayEntry(object):
                     commit_message_part_length)
             commit_message = commit_message[len(commit_message_part):]
 
-
             attrs = []
             if i == len(self.lines) - 1:
                 attrs.append('underline')
@@ -74,20 +72,22 @@ class DisplayEntry(object):
             if i != 0:
                 name = ' ' * len(name)
                 author_name = ' ' * len(author_name)
-        
-            output.append(''.join([
-                colored('█ ', commit_color, 'on_grey', attrs=attrs),
+
+            print(type(commit_message_part), type(formatted_line_number))
+
+            output.append(u''.join([
+                colored(u'█ ', commit_color, 'on_grey', attrs=attrs),
                 colored(name, commit_color, 'on_grey', attrs=attrs),
-                colored(' ', commit_color, 'on_grey', attrs=attrs),
+                colored(u' ', commit_color, 'on_grey', attrs=attrs),
                 colored(author_name, 'green', 'on_grey', attrs=attrs),
-                colored(' ' if author_name else '',
+                colored(u' ' if author_name else '',
                         'green', 'on_grey', attrs=attrs),
                 colored(commit_message_part,
                         commit_color, 'on_grey', attrs=attrs),
-                colored(' ', 'grey', 'on_grey', attrs=['dark'] + attrs),
+                colored(u' ', 'grey', 'on_grey', attrs=['dark'] + attrs),
                 colored(formatted_line_number.strip(),
-                        'grey', 'on_grey', attrs=['dark'] + attrs),
-                colored('┃', 'grey'),
-                colored(line, 'white'),
+                        u'grey', 'on_grey', attrs=['dark'] + attrs),
+                colored(u'┃', 'grey'),
+                line,
             ]))
-        return '\n'.join(output)
+        return u'\n'.join(output)
