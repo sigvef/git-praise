@@ -3,6 +3,7 @@ from setuptools import find_packages, setup
 dependencies = [
     'GitPython==2.1.5',
     'Pygments==2.2.0',
+    'click==6.7',
     'termcolor==1.1.0',
 ]
 
@@ -21,7 +22,7 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'praise = praise.main:main',
+            'praise = praise.main:praise_command',
         ],
     },
     classifiers=[

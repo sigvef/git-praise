@@ -26,7 +26,8 @@ def highlight(filename, text, formatter):
     return pygments.highlight(text, lexer, formatter).split('\n')
 
 def header(filename, repo, sidebar_width):
-    relative_path = repo.tree()[filename].path
+    root_dir = repo.git_dir[:-len('.git')]  # hacky
+    relative_path = os.path.abspath(filename)[len(root_dir):]
     basename = os.path.basename(relative_path)
     formatted_relative_path = leftpad(
         '(repo)/' + relative_path[:-len(basename)],
