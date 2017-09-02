@@ -2,6 +2,11 @@
 
 A nicer `git blame`.
 
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
+[![PyPI](https://img.shields.io/pypi/v/git-praise.svg)]()
+[![PyPI](https://img.shields.io/pypi/l/git-praise.svg)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/git-praise.svg)]()
+
 ![Screenshot  of git praise](https://github.com/sigvef/git-praise/blob/master/git-praise.png?raw=true)
 
 ## Installation
