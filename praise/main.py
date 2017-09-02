@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 from git.exc import InvalidGitRepositoryError
 from git.repo.base import Repo

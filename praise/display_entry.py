@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from termcolor import colored
 from praise.utils import leftpad
 from praise.utils import rightpad

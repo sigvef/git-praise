@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 def rightpad(string, length):
     string = str(string)
     truncated = string[:length]

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 from collections import namedtuple
 from praise.display_entry import DisplayEntry
