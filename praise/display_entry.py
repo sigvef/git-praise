@@ -1,10 +1,10 @@
 from termcolor import colored
 from praise.utils import leftpad
 from praise.utils import rightpad
-import math
 import re
 
 ANSI_REGEX = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
+
 
 def escape_ansi(line):
     return ANSI_REGEX.sub('', line)

@@ -1,10 +1,9 @@
+from __future__ import print_function
 from collections import namedtuple
 from praise.display_entry import DisplayEntry
 from praise.formatter import TruncatingTrueColorFormatter
 from praise.utils import leftpad
 from praise.utils import progress_bar
-from praise.utils import rightpad
-from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_for_filename
 from pygments.styles import get_style_by_name
 from termcolor import colored
@@ -16,14 +15,17 @@ import pygments
 style = get_style_by_name('monokai')
 Entry = namedtuple('Entry', ['commit', 'line_numbers'])
 
+
 def entry_from_blame_entry(blame_entry):
     return Entry(commit=blame_entry.commit,
                  line_numbers=[blame_entry.linenos[0],
                                blame_entry.linenos[-1]])
 
+
 def highlight(filename, text, formatter):
     lexer = get_lexer_for_filename(filename)
     return pygments.highlight(text, lexer, formatter).split('\n')
+
 
 def header(filename, repo, sidebar_width):
     root_dir = repo.git_dir[:-len('.git')]  # hacky
@@ -43,6 +45,7 @@ def header(filename, repo, sidebar_width):
                 'white',
                 attrs=['bold', 'underline']),
     ])
+
 
 def praise(filename, repo):
     with open(filename) as f:
@@ -65,15 +68,16 @@ def praise(filename, repo):
     # make display entries
     display_entries = []
     for i, entry in enumerate(merged_entries):
-        print('\r' + progress_bar(i / len(merged_entries), width=int(terminal_width)), end='')
-        line_numbers = entry.line_numbers[0]
+        print('\r' +
+              progress_bar(i / len(merged_entries), width=int(terminal_width)),
+              end='')
         start = entry.line_numbers[0] - 1
         end = entry.line_numbers[1]
         lines_range = range(start, end)
         display_entries.append(
             DisplayEntry(commit=entry.commit,
-            lines_range=lines_range,
-            line_number_start=start + 1))
+                         lines_range=lines_range,
+                         line_number_start=start + 1))
     print('\r' + ' ' * int(terminal_width) + '\r', end='')
 
     # measure display entries
@@ -108,9 +112,12 @@ def praise(filename, repo):
     for display_entry in display_entries:
         if display_entry.name not in commit_colors:
             commit_colors[display_entry.name] = colors[
-                int(hashlib.sha1(display_entry.name.encode('utf-8')).hexdigest(), 16) % len(colors)]
+                int(hashlib.sha1(
+                    display_entry.name.encode('utf-8')).hexdigest(),
+                    16) % len(colors)]
 
-    formatter = TruncatingTrueColorFormatter(style=style, max_width=int(terminal_width)-sidebar_width-2)
+    formatter = TruncatingTrueColorFormatter(
+        style=style, max_width=int(terminal_width)-sidebar_width-2)
     new_lines = highlight(filename, text, formatter)
     index = 0
     for display_entry in display_entries:
@@ -118,7 +125,7 @@ def praise(filename, repo):
         display_entry.lines = new_lines[index:index+number_of_lines]
         index += number_of_lines
 
-    output = [] 
+    output = []
 
     output.append(header(filename, repo, sidebar_width))
     for i, display_entry in enumerate(display_entries):

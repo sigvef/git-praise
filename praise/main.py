@@ -1,11 +1,10 @@
+from __future__ import print_function
 from git.exc import InvalidGitRepositoryError
 from git.repo.base import Repo
 from praise.praise import praise
-from subprocess import PIPE
-from subprocess import Popen
-import os
-import sys
 import click
+import os
+
 
 @click.command()
 @click.argument('filename')

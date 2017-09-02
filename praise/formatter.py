@@ -1,5 +1,6 @@
 from pygments.formatters import TerminalTrueColorFormatter
 
+
 class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
 
     def __init__(self, max_width=80, *args, **kwargs):
@@ -10,7 +11,6 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
     def format_unencoded(self, tokensource, outfile):
         unformatted_line_length = 0
         unformatted_truncated_line_length = 0
-        formatted_line = 0
         for ttype, value in tokensource:
             not_found = True
             while ttype and not_found:
@@ -18,15 +18,18 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                     # outfile.write( "<" + str(ttype) + ">" )
                     on, off = self.style_string[str(ttype)]
 
-                    # Like TerminalFormatter, add "reset colors" escape sequence
-                    # on newline.
+                    # Like TerminalFormatter, add "reset colors" escape
+                    # sequence on newline.
                     spl = value.split('\n')
                     for line in spl[:-1]:
                         if line:
                             unformatted_line_length += len(line)
-                            line = line[:self.max_width-unformatted_line_length]
+                            line = line[
+                                :self.max_width-unformatted_line_length]
                             unformatted_truncated_line_length += len(line)
-                            if unformatted_line_length != unformatted_truncated_line_length and line:
+                            if ((unformatted_line_length !=
+                                 unformatted_truncated_line_length) and
+                                    line):
                                 line = line[:-1] + '…'
                             if line:
                                 outfile.write(on + line + off)
@@ -37,7 +40,8 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                         unformatted_line_length += len(spl[-1])
                         item = spl[-1][:self.max_width-unformatted_line_length]
                         unformatted_truncated_line_length += len(item)
-                        if unformatted_line_length != unformatted_truncated_line_length and item:
+                        if ((unformatted_line_length !=
+                             unformatted_truncated_line_length) and item):
                             item = item[:-1] + '…'
                         if item:
                             outfile.write(on + item + off)
@@ -46,15 +50,14 @@ class TruncatingTrueColorFormatter(TerminalTrueColorFormatter):
                     # outfile.write( '#' + str(ttype) + '#' )
 
                 except KeyError:
-                    # ottype = ttype
                     ttype = ttype[:-1]
-                    # outfile.write( '!' + str(ottype) + '->' + str(ttype) + '!' )
 
             if not_found:
                 unformatted_line_length += len(value)
                 item = value[:self.max_width-unformatted_line_length]
                 unformatted_truncated_line_length += len(value)
-                if unformatted_line_length != unformatted_truncated_line_length and item:
+                if ((unformatted_line_length !=
+                     unformatted_truncated_line_length) and item):
                     item = item[:-1] + '…'
                 if item:
                     outfile.write(item)

@@ -5,9 +5,11 @@ def rightpad(string, length):
         truncated = truncated[:-1] + '…'
     return truncated + ' ' * (length - len(truncated))
 
+
 def leftpad(string, length):
     string = str(string)
     return rightpad(string[::-1], length)[::-1]
+
 
 def progress_bar(progress, width=20):
     bar_width = width - 17
