@@ -3,6 +3,7 @@ from __future__ import print_function
 from collections import namedtuple
 from praise.display_entry import DisplayEntry
 from praise.formatter import TruncatingTrueColorFormatter
+from praise.utils import is_binary_string
 from praise.utils import leftpad
 from praise.utils import progress_bar
 from pygments.lexers import get_lexer_for_filename
@@ -24,7 +25,10 @@ def entry_from_blame_entry(blame_entry):
 
 
 def highlight(filename, text, formatter):
-    lexer = get_lexer_for_filename(filename)
+    try:
+        lexer = get_lexer_for_filename(filename)
+    except pygments.util.ClassNotFound:
+        return text
     return pygments.highlight(text, lexer, formatter).split('\n')
 
 
@@ -49,8 +53,10 @@ def header(filename, repo, sidebar_width):
 
 
 def praise(filename, repo):
-    with open(filename) as f:
+    with open(filename, 'rb') as f:
         text = f.read()
+        if is_binary_string(text):
+            raise Exception('binary file')
     entries = list(sorted(
         map(entry_from_blame_entry, repo.blame_incremental('HEAD', filename)),
         key=lambda entry: entry.line_numbers))

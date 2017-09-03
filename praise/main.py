@@ -15,14 +15,17 @@ def praise_command(filename=None):
     except InvalidGitRepositoryError:
         print('Not a git repository')
         return
-    output = praise(filename, repo)
-    terminal_height, terminal_width = os.popen(
-        'stty size', 'r').read().split()
-    lines = output.split('\n')
-    if len(lines) > int(terminal_height):
-        click.echo_via_pager(output)
-    else:
-        click.echo(output)
+    try:
+        output = praise(filename, repo)
+        terminal_height, terminal_width = os.popen(
+            'stty size', 'r').read().split()
+        lines = output.split('\n')
+        if len(lines) > int(terminal_height):
+            click.echo_via_pager(output)
+        else:
+            click.echo(output)
+    except Exception:
+        print(filename, 'is a binary file.')
 
 
 if __name__ == '__main__':
