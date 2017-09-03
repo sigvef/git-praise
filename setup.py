@@ -10,7 +10,7 @@ dependencies = [
 
 setup(
     name='git-praise',
-    version='1.2.0',
+    version='1.3.0',
     url='https://github.com/sigvef/git-praise',
     license='MIT',
     author='Sigve Sebastian Farstad',
