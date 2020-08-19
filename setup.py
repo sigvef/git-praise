@@ -1,16 +1,16 @@
 from setuptools import setup
 
 dependencies = [
-    'GitPython==2.1.5',
-    'Pygments==2.2.0',
-    'click==6.7',
-    'flake8==3.4.1',
+    'GitPython==3.1.7',
+    'Pygments==2.6.1',
+    'click==7.1.2',
+    'flake8==3.8.3',
     'termcolor==1.1.0',
 ]
 
 setup(
     name='git-praise',
-    version='1.3.0',
+    version='1.4.0',
     url='https://github.com/sigvef/git-praise',
     license='MIT',
     author='Sigve Sebastian Farstad',
