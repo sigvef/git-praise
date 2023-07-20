@@ -2,7 +2,7 @@ from setuptools import setup
 
 dependencies = [
     'GitPython==3.1.7',
-    'Pygments==2.7.4',
+    'Pygments==2.15.0',
     'click==7.1.2',
     'flake8==3.8.3',
     'termcolor==1.1.0',
